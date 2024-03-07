@@ -10,15 +10,13 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.nio.charset.Charset;
-import org.slf4j.*;
+
 
 /**
  *
  * @author Zeeshan Ali
  */
 public class TcpClient {
-
-    static Logger logger = LoggerFactory.getLogger("com.kalsym.network");
 
     /**
      * Sends Request to Server and append \n\n with Message
@@ -90,7 +88,6 @@ public class TcpClient {
             clientsock.setSoLinger(true, 0);
             clientsock.connect(sockaddr, timeoutConnectMs);
 //            writeLog("[" + refId + "][TCPClient] Socket connected, Sending Data:" + requestMsg, LogType.DEBUG);
-            logger.debug("[" + refId + "][TCPClient] Socket connected, Sending Data:" + requestMsg);
 
             outgoingStream = new DataOutputStream(clientsock.getOutputStream());
 
@@ -101,7 +98,6 @@ public class TcpClient {
 
             incomingStream = new DataInputStream(clientsock.getInputStream());
 //            writeLog("[" + refId + "][TCPClient] Buffer sent, Waiting reply...", LogType.DEBUG);
-            logger.debug("[" + refId + "][TCPClient] Buffer sent, Waiting reply...");
             int token;
             while ((token = incomingStream.read()) != -1) {
                 char ch = (char) token;
@@ -111,12 +107,10 @@ public class TcpClient {
                 }
             }
 //            writeLog("[" + refId + "][TCPClient] Response:" + replyMsg, LogType.DEBUG);
-            logger.debug("[" + refId + "][TCPClient] Response:" + replyMsg);
             incomingStream.close();
             outgoingStream.close();
             clientsock.close();
 //            writeLog("[" + refId + "][TCPClient] [Connection closed]", LogType.DEBUG);
-            logger.debug("[" + refId + "][TCPClient] [Connection closed]");
             // extract result code from response
             return replyMsg;
         } catch (Exception ex) {
@@ -160,7 +154,6 @@ public class TcpClient {
             clientsock.setSoLinger(true, 0);
             clientsock.connect(sockaddr, timeoutConnectMs);
 //            writeLog("[" + refId + "][TCPClient] Socket connected, Sending Data:" + requestMsg, LogType.DEBUG);
-            logger.debug("[" + refId + "][TCPClient] Socket connected, Sending Data:" + requestMsg);
 
             outgoingStream = new DataOutputStream(clientsock.getOutputStream());
 
@@ -171,7 +164,6 @@ public class TcpClient {
 
             incomingStream = new DataInputStream(clientsock.getInputStream());
 //            writeLog("[" + refId + "][TCPClient] Buffer sent, Waiting reply...", LogType.DEBUG);
-            logger.debug("[" + refId + "][TCPClient] Buffer sent, Waiting reply...");
             int token;
             while ((token = incomingStream.read()) != -1) {
                 char ch = (char) token;
@@ -181,12 +173,10 @@ public class TcpClient {
                 }
             }
 //            writeLog("[" + refId + "][TCPClient] Response:" + replyMsg, LogType.DEBUG);
-            logger.debug("[" + refId + "][TCPClient] Response:" + replyMsg);
             incomingStream.close();
             outgoingStream.close();
             clientsock.close();
 //            writeLog("[" + refId + "][TCPClient] [Connection closed]", LogType.DEBUG);
-            logger.debug("[" + refId + "][TCPClient] [Connection closed]");
             // extract result code from response
             XMLReader reader = new XMLReader(replyMsg);
             reader.load();
@@ -240,7 +230,6 @@ public class TcpClient {
             clientsock.setSoLinger(true, 0);
             clientsock.connect(sockaddr, timeoutConnectMs);
 //            writeLog("[" + refId + "][TCPClient] Socket connected, Sending Data:" + requestMsg, LogType.DEBUG);
-            logger.debug("[" + refId + "][TCPClient] Socket connected, Sending Data:" + requestMsg);
 
             outgoingStream = new DataOutputStream(clientsock.getOutputStream());
 
@@ -255,7 +244,6 @@ public class TcpClient {
             );
 
 //            writeLog("[" + refId + "][TCPClient] Buffer sent, Waiting reply...", LogType.DEBUG);
-            logger.debug("[" + refId + "][TCPClient] Buffer sent, Waiting reply...");
             int token;
             //HE\rte\r\n\r\n
             /**
@@ -281,12 +269,10 @@ public class TcpClient {
                 }
             }
 //            writeLog("[" + refId + "][TCPClient] Response:" + replyMsg, LogType.DEBUG);
-            logger.debug("[" + refId + "][TCPClient] Response:" + replyMsg);
             incomingStream.close();
             outgoingStream.close();
             clientsock.close();
 //            writeLog("[" + refId + "][TCPClient] [Connection closed]", LogType.DEBUG);
-            logger.debug("[" + refId + "][TCPClient] [Connection closed]");
             // extract result code from response
             XMLReader reader = new XMLReader(replyMsg);
             reader.load();
@@ -340,7 +326,6 @@ public class TcpClient {
             clientsock.setSoLinger(true, 0);
             clientsock.connect(sockaddr, timeoutConnectMs);
 //            writeLog("[" + refId + "][TCPClient] Socket connected, Sending Data:" + requestMsg, LogType.DEBUG);
-            logger.debug("[" + refId + "][TCPClient] Socket connected, Sending Data:" + requestMsg);
 
             outgoingStream = new DataOutputStream(clientsock.getOutputStream());
 
@@ -351,7 +336,6 @@ public class TcpClient {
 
             incomingStream = new DataInputStream(clientsock.getInputStream());
 //            writeLog("[" + refId + "][TCPClient] Buffer sent, Waiting reply...", LogType.DEBUG);
-            logger.debug("[" + refId + "][TCPClient] Buffer sent, Waiting reply...");
             int token;
             while ((token = incomingStream.read()) != -1) {
                 char ch = (char) token;
@@ -361,12 +345,10 @@ public class TcpClient {
                 }
             }
 //            writeLog("[" + refId + "][TCPClient] Response:" + replyMsg, LogType.DEBUG);
-            logger.debug("[" + refId + "][TCPClient] Response:" + replyMsg);
             incomingStream.close();
             outgoingStream.close();
             clientsock.close();
 //            writeLog("[" + refId + "][TCPClient] [Connection closed]", LogType.DEBUG);
-            logger.debug("[" + refId + "][TCPClient] [Connection closed]");
             // Decode response
             try {
                 replyMsg = CustomEncodeDecode.decodeEncodedMessage(replyMsg);
@@ -375,8 +357,7 @@ public class TcpClient {
                 result.responseString = "Exception while decoding response!";
                 throw ex;
             }
-            //           writeLog("[" + refId + "][TCPClient] response after decode:" + replyMsg, LogType.DEBUG);
-            logger.debug("[" + refId + "][TCPClient] response after decode:" + replyMsg);
+ //           writeLog("[" + refId + "][TCPClient] response after decode:" + replyMsg, LogType.DEBUG);
 
             // extract result code from response
             XMLReader reader = new XMLReader(replyMsg);
@@ -407,7 +388,7 @@ public class TcpClient {
             try {
                 s.close();
             } catch (Exception ex) {
-                //               writeLog("Exception while closing silently :" + ex, LogType.ERROR);
+ //               writeLog("Exception while closing silently :" + ex, LogType.ERROR);
                 throw new Exception();
             }
         }
